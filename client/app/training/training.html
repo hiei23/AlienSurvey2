@@ -1,0 +1,33 @@
+<div class="col-md-12">
+  <br>
+  <br>
+  <span ng-click="open()" class="right btn btn-danger">Quit</span>
+  <div class="centered-div">
+    <br>
+    <br>
+    <br>
+    <progressbar max="max" value="questionCounter"><span style="color:black; white-space:nowrap;">{{questionCounter}} / {{max}}</span></progressbar>
+    <br>
+    <br>
+    <h3>How similar are these two objects?</h3>
+    <br>
+    <div ng-show="!reveal">
+      <span ng-click="saveAnswer('1')" class="btn btn-default">Completely dissimilar(0%)</span>
+      <span ng-click="saveAnswer('2')" class="btn btn-default">Slightly similar(<50%)</span>
+      <span ng-click="saveAnswer('3')" class="btn btn-default">Reasonably similar(<75%)</span>
+      <span ng-click="saveAnswer('4')" class="btn btn-default">Very Similar(<100%)</span>
+      <span ng-click="saveAnswer('5')" class="btn btn-default">Identical(100%)</span>
+    </div>
+    <div ng-show="reveal">
+      <div id="left-aligned" ng-bind-html="questionInfo.question.answerText"></div>
+      <br>
+      <span  ng-click="next()" class="btn btn-default">Next</span>
+    </div>
+    <br>
+
+    <img class="small" ng-src="{{questionInfo.question.object1.url}}"/><br>
+    <img class="small" ng-show="questionInfo.question.object2 != null" ng-src="{{questionInfo.question.object2.url}}"/>
+    <br>
+    <br>
+  </div>
+</div>

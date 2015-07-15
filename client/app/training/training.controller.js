@@ -5,7 +5,7 @@ angular.module('surveyApp')
     $scope.questions = [];
     $scope.reveal = false;
     $scope.max = 20;
-    $scope.questionCounter = 0;
+    $scope.questionCounter = parseInt($cookies.get('curTrainingQuestion'));
     $scope.questionInfo = {participantObjectId: '', question: {}, answer: ''};
 
     $scope.loadQuestions = function() {
@@ -16,6 +16,9 @@ angular.module('surveyApp')
     };
 
     $scope.saveAnswer = function(answer) {
+      $scope.questionCounter +=1;
+      $cookies.put('curTrainingQuestion', $scope.questionCounter.toString());
+
       $scope.questionInfo.answer = answer;
       Restangular.all('api/participant/').post({questionInfo: $scope.questionInfo}).then(function(serverJson) {
         $scope.displayAnswer();
@@ -24,7 +27,6 @@ angular.module('surveyApp')
 
 
     $scope.askNextQuestion = function() {
-      $scope.questionCounter +=1;
       if ($scope.questionCounter <= $scope.questions.length) {
         $scope.questionInfo = {participantObjectId: $cookies.get('participantObjectId'),
           question: $scope.questions[$scope.questionCounter - 1], answer: ''};
@@ -51,7 +53,7 @@ angular.module('surveyApp')
 
       var modalInstance = $modal.open({
         animation: true,
-        templateUrl: '/app/quit/quit.html',
+        templateUrl: 'app/quit/quit.html',
         controller: 'QuitCtrl',
         size: size
       });

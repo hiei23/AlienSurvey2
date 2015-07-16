@@ -2,32 +2,89 @@
   <br>
   <br>
   <span ng-click="open()" class="right btn btn-danger">Quit</span>
-  <div class="centered-div">
-    <br>
-    <br>
-    <br>
-    <progressbar max="max" value="questionCounter"><span style="color:black; white-space:nowrap;">{{questionCounter}} / {{max}}</span></progressbar>
-    <br>
-    <br>
-    <h3>How similar are these two objects?</h3>
-    <br>
-    <div ng-show="!reveal">
-      <span ng-click="saveAnswer('1')" class="btn btn-default">Completely dissimilar(0%)</span>
-      <span ng-click="saveAnswer('2')" class="btn btn-default">Slightly similar(<50%)</span>
-      <span ng-click="saveAnswer('3')" class="btn btn-default">Reasonably similar(<75%)</span>
-      <span ng-click="saveAnswer('4')" class="btn btn-default">Very Similar(<100%)</span>
-      <span ng-click="saveAnswer('5')" class="btn btn-default">Identical(100%)</span>
-    </div>
-    <div ng-show="reveal">
-      <div id="left-aligned" ng-bind-html="questionInfo.question.answerText"></div>
-      <br>
-      <span  ng-click="next()" class="btn btn-default">Next</span>
-    </div>
-    <br>
 
-    <img class="small" ng-src="{{questionInfo.question.object1.url}}"/><br>
-    <img class="small" ng-show="questionInfo.question.object2 != null" ng-src="{{questionInfo.question.object2.url}}"/>
-    <br>
-    <br>
+  <div class="centered-div">
+    <div ng-show="!description.show">
+      <br>
+      <br>
+      <br>
+      <progressbar max="max" value="progressBar"><span style="color:black; white-space:nowrap;">{{progressBar}} / {{max}}</span>
+      </progressbar>
+      <br>
+      <br>
+
+      <h3>How similar are these two objects?</h3>
+      <br>
+
+      <div ng-show="!reveal">
+        <span ng-click="saveAnswer('1')" class="btn btn-default">Completely dissimilar(0%)</span>
+        <span ng-click="saveAnswer('2')" class="btn btn-default">Slightly similar(<50%)</span>
+        <span ng-click="saveAnswer('3')" class="btn btn-default">Reasonably similar(<75%)</span>
+        <span ng-click="saveAnswer('4')" class="btn btn-default">Very Similar(<100%)</span>
+        <span ng-click="saveAnswer('5')" class="btn btn-default">Identical(100%)</span>
+      </div>
+      <div ng-show="reveal">
+        <span ng-click="next()" class="btn btn-default">Next</span>
+        <br>
+        <div id="left-aligned" ng-bind-html="questionInfo.question.answerText"></div>
+      </div>
+      <br>
+      <img class="small" ng-src="{{questionInfo.question.object1.url}}"/><br>
+      <img class="small" ng-show="questionInfo.question.object2 != null" ng-src="{{questionInfo.question.object2.url}}"/>
+      <br>
+      <br>
+    </div>
+   <div ng-show="description.show">
+     <br>
+     <br>
+     <br>
+     <div ng-include="description.files[description.counter]"></div>
+     <br>
+     <br>
+     <span ng-click="descriptionOk()" class="btn btn-default btn-lg">Next</span>
+     <br>
+     <br>
+     <br>
+   </div>
+
+
+    <!--<accordion close-others=false>-->
+      <!--<accordion-group is-open="status.open1">-->
+        <!--<accordion-heading>-->
+          <!--Object #1: Aliens <i class="pull-right glyphicon"-->
+                               <!--ng-class="{'glyphicon-chevron-down': status.open1, 'glyphicon-chevron-right': !status.open1}"></i>-->
+        <!--</accordion-heading>-->
+        <!--<div ng-include="'app/training/descriptions/alien.html'"></div>-->
+      <!--</accordion-group>-->
+
+      <!--<accordion-group is-open="status.open2">-->
+        <!--<accordion-heading>-->
+          <!--Object #2: Alien Families <i class="pull-right glyphicon"-->
+                                       <!--ng-class="{'glyphicon-chevron-down': status.open2, 'glyphicon-chevron-right': !status.open2}"></i>-->
+        <!--</accordion-heading>-->
+      <!--</accordion-group>-->
+      <!--<accordion-group is-open="status.open3">-->
+        <!--<accordion-heading>-->
+          <!--Object #3: Bacteria <i class="pull-right glyphicon"-->
+                                 <!--ng-class="{'glyphicon-chevron-down': status.open3, 'glyphicon-chevron-right': !status.open3}"></i>-->
+        <!--</accordion-heading>-->
+        <!--<div ng-include="'app/training/descriptions/bacteria.html'"></div>-->
+      <!--</accordion-group>-->
+      <!--<accordion-group is-open="status.open4">-->
+        <!--<accordion-heading>-->
+          <!--Object #4: Mochi Group <i class="pull-right glyphicon"-->
+                                    <!--ng-class="{'glyphicon-chevron-down': status.open4, 'glyphicon-chevron-right': !status.open4}"></i>-->
+        <!--</accordion-heading>-->
+        <!--<div ng-include="'app/training/descriptions/bacteria.html'"></div>-->
+      <!--</accordion-group>-->
+      <!--<accordion-group is-open="status.open5">-->
+        <!--<accordion-heading>-->
+          <!--Object #5: Alien Greyed <i class="pull-right glyphicon"-->
+                                     <!--ng-class="{'glyphicon-chevron-down': status.open4, 'glyphicon-chevron-right': !status.open5}"></i>-->
+        <!--</accordion-heading>-->
+        <!--<div ng-include="'app/training/descriptions/aliengreyed.html'"></div>-->
+      <!--</accordion-group>-->
+    <!--</accordion>-->
   </div>
 </div>
+

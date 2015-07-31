@@ -8,6 +8,8 @@ exports.addParticipant = function(req, res) {
   var Participant = Parse.Object.extend('Participant');
   var newParticipant = new Participant();
 
+  newParticipant.set('answers', new Array(20));
+
   newParticipant.save().then(function (result) {
       res.json(result);
     },
@@ -27,7 +29,9 @@ exports.addAnswer = function(req, res) {
 
   query.get(questionInfo.participantObjectId,{
     success: function (results) {
-      results.set('q' + questionInfo.question.number, questionInfo.answer);
+      //results.set('q' + questionInfo.question.number, questionInfo.answer);
+      results.attributes.answers[questionInfo.question.number - 1] = questionInfo.answer;
+      results.set('answers', results.attributes.answers);
       results.save().then(function (result) {
           res.send(200);
         },

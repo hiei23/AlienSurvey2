@@ -10,6 +10,8 @@ angular.module('surveyApp')
     } else {
       Restangular.all('api/participant/').get('').then(function(serverJson) {
         $cookies.put('participantObjectId', serverJson.objectId);
+        $cookies.put('curTrainingQuestion', 1);
+        $cookies.put('curQuestion', 1);
         $state.go('intro');
       });
     };

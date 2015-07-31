@@ -17,19 +17,25 @@
       <br>
 
       <div ng-show="!reveal">
-        <span ng-click="saveAnswer('1')" class="btn btn-default">Completely dissimilar(0%)</span>
-        <span ng-click="saveAnswer('2')" class="btn btn-default">Slightly similar(<50%)</span>
-        <span ng-click="saveAnswer('3')" class="btn btn-default">Reasonably similar(<75%)</span>
-        <span ng-click="saveAnswer('4')" class="btn btn-default">Very Similar(<100%)</span>
-        <span ng-click="saveAnswer('5')" class="btn btn-default">Identical(100%)</span>
+        <span ng-click="saveAnswer('Completely dissimilar')" class="btn btn-default">Completely dissimilar(0%)</span>
+        <span ng-click="saveAnswer('Slightly similar')" class="btn btn-default">Slightly similar(<50%)</span>
+        <span ng-click="saveAnswer('Reasonably similar')" class="btn btn-default">Reasonably similar(<75%)</span>
+        <span ng-click="saveAnswer('Very similar')" class="btn btn-default">Very Similar(<100%)</span>
+        <span ng-click="saveAnswer('Identical')" class="btn btn-default">Identical(100%)</span>
       </div>
       <div ng-show="reveal">
         <span ng-click="next()" class="btn btn-default">Next</span>
+        <br>
+        <br>
+        <strong>You chose:  <span>{{ answer }}</span>.</strong>
+        <br>
         <br>
         <div id="left-aligned" ng-bind-html="questionInfo.question.answerText"></div>
       </div>
       <br>
       <img class="small" ng-src="{{questionInfo.question.object1.url}}"/><br>
+      <br>
+      <br>
       <img class="small" ng-show="questionInfo.question.object2 != null" ng-src="{{questionInfo.question.object2.url}}"/>
       <br>
       <br>

@@ -1,6 +1,6 @@
 .centered-div {
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 100%;
   text-align: center;
 }
 
@@ -14,3 +14,21 @@
   float: right;
   margin-right: 20px;
 }
+
+.left {
+  float: left;
+}
+
+.alien-thumb {
+  width: 300px;
+}
+
+.alien-family-thumb {
+  width: 400px;
+}
+
+.small-div {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+

@@ -4,8 +4,13 @@ angular.module('surveyApp')
   .controller('TrainingCtrl', ['$scope', 'Restangular', '$state', '$cookies', '$modal', function ($scope, Restangular, $state, $cookies, $modal) {
     $scope.questions = [];
     $scope.reveal = false;
-    $scope.max = 20;
+    $scope.description = {show: false, counter: 0, files:['app/training/descriptions/aliengreyed.html',
+      'app/training/descriptions/alienfamily.html',
+      'app/training/descriptions/bacteria.html',
+      'app/training/descriptions/mochigroup.html']};
+    $scope.max = 16;
     $scope.questionCounter = parseInt($cookies.get('curTrainingQuestion'));
+    $scope.progressBar = parseInt($cookies.get('curTrainingQuestion')) - 1;
     $scope.questionInfo = {participantObjectId: '', question: {}, answer: ''};
 
     $scope.loadQuestions = function() {
@@ -16,24 +21,35 @@ angular.module('surveyApp')
     };
 
     $scope.saveAnswer = function(answer) {
-      $scope.questionCounter +=1;
+      $scope.answer = answer;
+      $scope.displayAnswer();
+
+      $scope.questionCounter += 1;
+      $scope.progressBar += 1;
       $cookies.put('curTrainingQuestion', $scope.questionCounter.toString());
 
       $scope.questionInfo.answer = answer;
       Restangular.all('api/participant/').post({questionInfo: $scope.questionInfo}).then(function(serverJson) {
-        $scope.displayAnswer();
       });
     };
 
 
     $scope.askNextQuestion = function() {
-      if ($scope.questionCounter <= $scope.questions.length) {
+      if ($scope.questions[$scope.questionCounter -1] &&
+        $scope.questions[$scope.questionCounter - 1].mode && $scope.description.show == false) {
+        $scope.description.counter = parseInt($scope.questions[$scope.questionCounter - 1].mode);
+        $scope.description.show = true;
+      } else if ($scope.questionCounter <= $scope.questions.length && $scope.reveal == false) {
         $scope.questionInfo = {participantObjectId: $cookies.get('participantObjectId'),
           question: $scope.questions[$scope.questionCounter - 1], answer: ''};
-      } else {
+        $scope.description.show = false;
+      } else if ($scope.questionCounter > $scope.questions.length) {
         $scope.end();
       };
+    };
 
+    $scope.descriptionOk = function () {
+      $scope.askNextQuestion();
     };
 
     $scope.displayAnswer = function() {

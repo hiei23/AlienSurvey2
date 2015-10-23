@@ -1,50 +1,53 @@
 'use strict';
 
 angular.module('surveyApp')
-  .controller('TrainingCtrl', ['$scope', 'Restangular', '$state', '$cookies', '$modal', function ($scope, Restangular, $state, $cookies, $modal) {
+  .controller('TrainingCtrl', ['$scope', 'Restangular', '$state', '$cookies', '$modal', '$stateParams', function ($scope, Restangular, $state, $cookies, $modal, $stateParams) {
+    $scope.invalidInput = false;
     $scope.questions = [];
+    $scope.answers = [false, false, false, false, false];
     $scope.reveal = false;
+    $scope.questionCounter = 1;
     $scope.description = {show: false, counter: 0, files:['app/training/descriptions/aliengreyed.html',
       'app/training/descriptions/alienfamily.html',
       'app/training/descriptions/bacteria.html',
       'app/training/descriptions/mochigroup.html']};
-    $scope.max = 16;
-    $scope.questionCounter = parseInt($cookies.get('curTrainingQuestion'));
-    $scope.progressBar = parseInt($cookies.get('curTrainingQuestion')) - 1;
+
     $scope.questionInfo = {participantObjectId: '', question: {}, answer: ''};
 
     $scope.loadQuestions = function() {
-      Restangular.all('api/training/').getList().then(function(serverJson) {
+      Restangular.all('api/training/' + $stateParams.mode).getList().then(function(serverJson) {
         $scope.questions = serverJson.plain();
         $scope.askNextQuestion();
       });
     };
 
-    $scope.saveAnswer = function(answer) {
-      $scope.answer = answer;
-      $scope.displayAnswer();
+    $scope.saveAnswer = function() {
+      if ($scope.validate()) {
 
-      $scope.questionCounter += 1;
-      $scope.progressBar += 1;
-      $cookies.put('curTrainingQuestion', $scope.questionCounter.toString());
+        $scope.displayAnswer();
 
-      $scope.questionInfo.answer = answer;
-      Restangular.all('api/participant/').post({questionInfo: $scope.questionInfo}).then(function(serverJson) {
-      });
+        $scope.questionCounter += 1;
+        $scope.progressBar += 1;
+        $cookies.put('curTrainingQuestion', $scope.questionCounter.toString());
+
+      } else {
+        $scope.invalidInput = true;
+      }
+
     };
 
 
     $scope.askNextQuestion = function() {
-      if ($scope.questions[$scope.questionCounter -1] &&
-        $scope.questions[$scope.questionCounter - 1].mode && $scope.description.show == false) {
-        $scope.description.counter = parseInt($scope.questions[$scope.questionCounter - 1].mode);
-        $scope.description.show = true;
-      } else if ($scope.questionCounter <= $scope.questions.length && $scope.reveal == false) {
+       if ($scope.questionCounter <= $scope.questions.length && $scope.reveal == false) {
+         $scope.invalidInput = false;
+         $scope.answers = [false, false, false, false, false];
         $scope.questionInfo = {participantObjectId: $cookies.get('participantObjectId'),
           question: $scope.questions[$scope.questionCounter - 1], answer: ''};
+         $scope.vertical = $scope.questionInfo.question.type != 'aliens';
+         $scope.bacteria = $scope.questionInfo.question.type == 'bacteria sets';
         $scope.description.show = false;
       } else if ($scope.questionCounter > $scope.questions.length) {
-        $scope.end();
+        $state.go('questions');
       };
     };
 
@@ -62,7 +65,7 @@ angular.module('surveyApp')
     };
 
     $scope.end = function() {
-      $state.go('end');
+      $state.go('questions');
     };
 
     $scope.open = function (size) {
@@ -78,6 +81,18 @@ angular.module('surveyApp')
         $scope.selected = selectedItem;
       }, function () {
       });
+    };
+
+    $scope.validate = function () {
+      var i;
+      var counter = 0;
+      for (i = 0; i < $scope.answers.length; i++) {
+        if ($scope.answers[i] == true) {
+          counter++;
+        };
+      };
+
+      return counter == 2;
     };
 
 

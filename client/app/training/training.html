@@ -2,95 +2,120 @@
   <br>
   <br>
   <span ng-click="open()" class="right btn btn-danger">Quit</span>
+  <br>
+  <br>
+  <br>
+  <alert ng-show="invalidInput == true" type="danger">You must pick exactly two items.</alert>
+  <br>
+  <br>
 
   <div class="centered-div">
-    <div ng-show="!description.show">
+      <h3>Tutorial Questions</h3>
       <br>
+      <h3>Which two {{ questionInfo.question.type }} form the most similar pair?</h3>
       <br>
-      <br>
-      <progressbar max="max" value="progressBar"><span style="color:black; white-space:nowrap;">{{progressBar}} / {{max}}</span>
-      </progressbar>
-      <br>
-      <br>
-
-      <h3>How similar are these two objects?</h3>
       <br>
 
       <div ng-show="!reveal">
-        <span ng-click="saveAnswer('Completely dissimilar')" class="btn btn-default">Completely dissimilar(0%)</span>
-        <span ng-click="saveAnswer('Slightly similar')" class="btn btn-default">Slightly similar(<50%)</span>
-        <span ng-click="saveAnswer('Reasonably similar')" class="btn btn-default">Reasonably similar(<75%)</span>
-        <span ng-click="saveAnswer('Very similar')" class="btn btn-default">Very Similar(<100%)</span>
-        <span ng-click="saveAnswer('Identical')" class="btn btn-default">Identical(100%)</span>
+        <span ng-click="saveAnswer()" class="btn btn-default btn-lg">Next</span>
       </div>
       <div ng-show="reveal">
-        <span ng-click="next()" class="btn btn-default">Next</span>
-        <br>
-        <br>
-        <strong>You chose:  <span>{{ answer }}</span>.</strong>
+        <span ng-click="next()" class="btn btn-default btn-lg">Next</span>
         <br>
         <br>
         <div id="left-aligned" ng-bind-html="questionInfo.question.answerText"></div>
+        <br>
       </div>
       <br>
-      <img class="small" ng-src="{{questionInfo.question.object1.url}}"/><br>
+
+    <div class="inner-centered-div" ng-show="vertical && !bacteria">
+      <label>1</label>
+      <input type="checkbox" ng-model="answers[0]">
+      <img  ng-click="answers[0] = !answers[0]" class="option" ng-src="{{questionInfo.question.object1.url}}">
+      <label>2</label>
+      <input type="checkbox" ng-model="answers[1]">
+      <img  ng-click="answers[1] = !answers[1]" class="option" ng-src="{{questionInfo.question.object2.url}}">
       <br>
+      <label>3</label>
+      <input type="checkbox" ng-model="answers[2]">
+      <img  ng-click="answers[2] = !answers[2]" class="option" ng-src="{{questionInfo.question.object3.url}}">
+      <label>4</label>
+      <input type="checkbox" ng-model="answers[3]">
+      <img  ng-click="answers[3] = !answers[3]" class="option" ng-src="{{questionInfo.question.object4.url}}">
       <br>
-      <img class="small" ng-show="questionInfo.question.object2 != null" ng-src="{{questionInfo.question.object2.url}}"/>
-      <br>
-      <br>
+      <label>5</label>
+      <input type="checkbox" ng-model="answers[4]">
+      <img  ng-click="answers[4] = !answers[4]" class="option" ng-src="{{questionInfo.question.object5.url}}">
     </div>
-   <div ng-show="description.show">
-     <br>
-     <br>
-     <br>
-     <div ng-include="description.files[description.counter]"></div>
-     <br>
-     <br>
-     <span ng-click="descriptionOk()" class="btn btn-default btn-lg">Next</span>
-     <br>
-     <br>
-     <br>
-   </div>
 
 
-    <!--<accordion close-others=false>-->
-      <!--<accordion-group is-open="status.open1">-->
-        <!--<accordion-heading>-->
-          <!--Object #1: Aliens <i class="pull-right glyphicon"-->
-                               <!--ng-class="{'glyphicon-chevron-down': status.open1, 'glyphicon-chevron-right': !status.open1}"></i>-->
-        <!--</accordion-heading>-->
-        <!--<div ng-include="'app/training/descriptions/alien.html'"></div>-->
-      <!--</accordion-group>-->
+    <div class="inner-centered-div" ng-show="vertical && bacteria">
+      <label>1</label>
+      <input type="checkbox" ng-model="answers[0]">
+      <img ng-click="answers[0] = !answers[0]" class="option bacteria-thumb" ng-src="{{questionInfo.question.object1.url}}">
+      <br>
+      <br>
+      <label>2</label>
+      <input type="checkbox" ng-model="answers[1]">
+      <img  ng-click="answers[1] = !answers[1]" class="option bacteria-thumb" ng-src="{{questionInfo.question.object2.url}}">
+      <br>
+      <br>
+      <label>3</label>
+      <input type="checkbox" ng-model="answers[2]">
+      <img   ng-click="answers[2] = !answers[2]" class="option bacteria-thumb" ng-src="{{questionInfo.question.object3.url}}">
+      <br>
+      <br>
+      <label>4</label>
+      <input type="checkbox" ng-model="answers[3]">
+      <img  ng-click="answers[3] = !answers[3]"  class="option bacteria-thumb" ng-src="{{questionInfo.question.object4.url}}">
+      <br>
+      <br>
+      <label>5</label>
+      <input type="checkbox" ng-model="answers[4]">
+      <img  ng-click="answers[4] = !answers[4]" class="option bacteria-thumb" ng-src="{{questionInfo.question.object5.url}}">
+    </div>
 
-      <!--<accordion-group is-open="status.open2">-->
-        <!--<accordion-heading>-->
-          <!--Object #2: Alien Families <i class="pull-right glyphicon"-->
-                                       <!--ng-class="{'glyphicon-chevron-down': status.open2, 'glyphicon-chevron-right': !status.open2}"></i>-->
-        <!--</accordion-heading>-->
-      <!--</accordion-group>-->
-      <!--<accordion-group is-open="status.open3">-->
-        <!--<accordion-heading>-->
-          <!--Object #3: Bacteria <i class="pull-right glyphicon"-->
-                                 <!--ng-class="{'glyphicon-chevron-down': status.open3, 'glyphicon-chevron-right': !status.open3}"></i>-->
-        <!--</accordion-heading>-->
-        <!--<div ng-include="'app/training/descriptions/bacteria.html'"></div>-->
-      <!--</accordion-group>-->
-      <!--<accordion-group is-open="status.open4">-->
-        <!--<accordion-heading>-->
-          <!--Object #4: Mochi Group <i class="pull-right glyphicon"-->
-                                    <!--ng-class="{'glyphicon-chevron-down': status.open4, 'glyphicon-chevron-right': !status.open4}"></i>-->
-        <!--</accordion-heading>-->
-        <!--<div ng-include="'app/training/descriptions/bacteria.html'"></div>-->
-      <!--</accordion-group>-->
-      <!--<accordion-group is-open="status.open5">-->
-        <!--<accordion-heading>-->
-          <!--Object #5: Alien Greyed <i class="pull-right glyphicon"-->
-                                     <!--ng-class="{'glyphicon-chevron-down': status.open4, 'glyphicon-chevron-right': !status.open5}"></i>-->
-        <!--</accordion-heading>-->
-        <!--<div ng-include="'app/training/descriptions/aliengreyed.html'"></div>-->
-      <!--</accordion-group>-->
-    <!--</accordion>-->
+
+    <div class="row" ng-show="!vertical">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-2">
+        <label>1</label>
+        <input type="checkbox" ng-model="answers[0]">
+        <img  ng-click="answers[0] = !answers[0]" class="option img-responsive" ng-src="{{questionInfo.question.object1.url}}">
+      </div>
+
+      <div  class="col-md-2">
+        <label>2</label>
+        <input type="checkbox" ng-model="answers[1]">
+        <img  ng-click="answers[1] = !answers[1]" class="option img-responsive" ng-src="{{questionInfo.question.object2.url}}">
+      </div>
+
+      <div  class="col-md-2">
+        <label>3</label>
+        <input type="checkbox" ng-model="answers[2]">
+        <img  ng-click="answers[2] = !answers[2]" class="option img-responsive" ng-src="{{questionInfo.question.object3.url}}">
+      </div>
+
+      <div class="col-md-2">
+        <label>4</label>
+        <input type="checkbox" ng-model="answers[3]">
+        <img  ng-click="answers[3] = !answers[3]" class="option img-responsive" ng-src="{{questionInfo.question.object4.url}}">
+      </div>
+
+      <div class="col-md-2">
+        <label>5</label>
+        <input type="checkbox" ng-model="answers[4]">
+        <img  ng-click="answers[4] = !answers[4]" class="option img-responsive" ng-src="{{questionInfo.question.object5.url}}">
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+    <br>
+    <br>
+
+      <br>
+      <br>
   </div>
 </div>
 

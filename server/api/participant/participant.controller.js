@@ -9,6 +9,9 @@ exports.addParticipant = function(req, res) {
   var newParticipant = new Participant();
 
   newParticipant.set('answers', new Array(20));
+  newParticipant.set('alien', 0);
+  newParticipant.set('alienfam', 0);
+  newParticipant.set('bacteria', 0);
 
   newParticipant.save().then(function (result) {
       res.json(result);
@@ -49,9 +52,53 @@ exports.addAnswer = function(req, res) {
   });
 };
 
+exports.getParticipants = function(req, res) {
+  var Participant = Parse.Object.extend('Participant');
+  var query = new Parse.Query(Participant);
+  query.limit(200);
+  query.find({
+    success: function (results) {
+      res.json(results);
+    }
+    ,
+    error: function (error) {
+      console.log(error);
+      res.status(500).end();
+    }
+  });
+
+
+};
+
+
+exports.addEmail = function(req, res) {
+  var info = req.body;
+
+  var Participant = Parse.Object.extend('Participant');
+  var query = new Parse.Query(Participant);
+
+  query.get(info.participantObjectId,{
+    success: function (results) {
+      results.set('email', info.email);
+      results.save().then(function (result) {
+          res.send(200);
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).end();
+        }
+      );
+    }
+    ,
+    error: function (error) {
+      console.log(error);
+      res.status(500).end();
+    }
+  });
+};
 
 exports.deleteParticipant = function(req, res) {
-  var objectId = req.params.id;
+  var objectId = req.body.id;
   var Participant = Parse.Object.extend("Participant");
   var query = new Parse.Query(Participant);
 
@@ -65,6 +112,42 @@ exports.deleteParticipant = function(req, res) {
       // The object was not retrieved successfully.
       // error is a Parse.Error with an error code and description.
       res.send(500);
+    }
+  });
+};
+
+exports.incTutorial = function(req, res) {
+  var info = req.body;
+  var Participant = Parse.Object.extend('Participant');
+  var query = new Parse.Query(Participant);
+
+  query.get(info.participantObjectId,{
+    success: function (results) {
+
+      if (info.mode == 'aliens' ) {
+        results.set('alien', results.attributes.alien + 1);
+
+      } else if (info.mode == 'bacteria sets') {
+        results.set('bacteria', results.attributes.bacteria + 1);
+      } else {
+        results.set('alienfam', results.attributes.alienfam + 1);
+      }
+
+
+
+      results.save().then(function (result) {
+          res.send(200);
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).end();
+        }
+      );
+    }
+    ,
+    error: function (error) {
+      console.log(error);
+      res.status(500).end();
     }
   });
 };

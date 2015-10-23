@@ -8,7 +8,7 @@ angular.module('surveyApp')
       $modalInstance.close('closed');
 
       if(keepData == 'n'){
-        Restangular.all('api/participant/delete/' + $cookies.get('participantObjectId')).post().then(function(serverJson) {
+        Restangular.all('api/participant/delete/').post({id: $cookies.get('participantObjectId')}).then(function(serverJson) {
         });
       }
 

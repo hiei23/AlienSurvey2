@@ -10,7 +10,7 @@ angular.module('surveyApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
-      .otherwise('/');
+      .otherwise('/results');
 
     $locationProvider.html5Mode(true);
   });

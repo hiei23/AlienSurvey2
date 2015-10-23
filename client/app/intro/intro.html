@@ -4,10 +4,31 @@
   <br>
   <br>
   <br>
-  <div class="centered-div">
-    <div>{{message}}</div>
+  <div class="centered-div" style="width: 500px">
+    <div>
+        You are doing a study.  It is on a volunteer basis. If you choose to withdraw, you will be asked if you consent
+        to using the answers you did provide for our study or you wish to discard them. </div>
     <br>
-    <span class="btn btn-default" ui-sref="questions">Next</span>
+    <div>
+        The data we are collecting is to determine which representations are more effective
+        for humans for identifying object similarity. Our ultimate goal is to develop a game that uses characters
+        that humans find effective for identifying similarity to be able to match complex software systems.
+     </div>
+    <br>
+    <div>
+        We will also ask for your e-mail address as we will be sending out a $50 prize to the
+        participant with the best score. If you choose to provide your e-mail, then your survey data will
+        be associated with your e-mail address. If you do not provide your e-mail, you will be anonymous
+        and there will be
+        no way to withdraw your data after you complete the survey.
+    </div>
+
+    <br>
+    <div>Please enter your e-mail (this is optional):</div>
+    <input style="width: 500px" class="form-control centered-div" type="text" ng-model="email"/>
+    <br>
+    <br>
+    <span class="btn btn-default btn-lg" ng-click="next()">Next</span>
   </div>
   <br>
 

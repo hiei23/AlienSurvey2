@@ -8,7 +8,8 @@ exports.getTrainingQuestions = function(req, res) {
   var TrainingQuestion = Parse.Object.extend('Training');
   var query = new Parse.Query(TrainingQuestion);
 
-  query.ascending('number2');
+  query.equalTo('mode', parseInt(req.params.type));
+  query.ascending('number');
   query.find({
     success: function (results) {
       res.json(results);

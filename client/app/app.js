@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('surveyApp', [
-  'ngCookies',
   'ngResource',
   'ngSanitize',
   'ui.router',
@@ -10,7 +9,7 @@ angular.module('surveyApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider
-      .otherwise('/results');
+      .otherwise('/');
 
     $locationProvider.html5Mode(true);
   });
